@@ -5,12 +5,20 @@ import MapView from "../components/MapView";
 
 const Dashboard = () => {
   const [bins, setBins] = useState([]);
+  const [prevBins, setPrevBins] = useState([]);
+
+  console.log("BINS:", bins);
 
   useEffect(() => {
     const fetchBins = async () => {
       try {
         const res = await API.get("/bins");
-        setBins(res.data);
+        setPrevBins(bins);
+
+        setTimeout(() => {
+          setBins(res.data);
+        }, 200);
+
       } catch (error) {
         console.error(error);
       }
@@ -18,33 +26,44 @@ const Dashboard = () => {
 
     fetchBins();
 
-    // 🔁 Auto refresh every 5 sec
-    const interval = setInterval(fetchBins, 5000);
+    const interval = setInterval(fetchBins, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [bins]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-6">
       
-      {/* Header */}
       <h1 className="text-4xl font-bold mb-8 tracking-wide">
         Smart Waste Dashboard
       </h1>
 
-      {/* Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {bins.map((bin) => (
-          <BinCard key={bin._id} bin={bin} />
-        ))}
+        {bins.map((bin) => {
+          const prevBin = prevBins.find((b) => b._id === bin._id);
+
+          const statusChanged = prevBin && prevBin.status !== bin.status;
+
+          return (
+            <div
+              key={bin._id}
+              className={`transition-all duration-500 ease-in-out ${
+                statusChanged
+                  ? "scale-105 ring-2 ring-blue-400"
+                  : "scale-100"
+              }`}
+            >
+              <BinCard bin={bin} />
+            </div>
+          );
+        })}
       </div>
 
-      {/* Map Section */}
       <div className="mt-10">
         <h2 className="text-2xl font-semibold mb-4">
           Route Overview
         </h2>
 
-        <div className="rounded-2xl overflow-hidden border border-white/10 shadow-lg">
+        <div className="rounded-2xl overflow-hidden border border-white/10 shadow-lg transition-all duration-500">
           <MapView bins={bins} />
         </div>
       </div>

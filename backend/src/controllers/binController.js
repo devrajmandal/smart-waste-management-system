@@ -4,25 +4,29 @@ import { getBinStatus } from "../utils/statusHelper.js";
 
 export const addBinData = async (req, res) => {
   try {
-    const { binId, fillLevel, gasLevel, temperature, timestamp } = req.body;
+    const { binId, fillLevel, gasLevel, temperature } = req.body;
 
-    // Save sensor data
+    if (!binId || fillLevel === undefined || gasLevel === undefined || temperature === undefined) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
     const newData = await SensorData.create({
       binId,
       fillLevel,
       gasLevel,
       temperature,
-      timestamp,
+      timestamp: new Date(),
     });
 
-    // Determine status
     const status = getBinStatus(fillLevel, gasLevel, temperature);
 
-    // Update or create bin
     const updatedBin = await Bin.findOneAndUpdate(
       { binId },
       { status },
-      { new: true, upsert: true }
+      {
+        returnDocument: "after",
+        upsert: true,
+      }
     );
 
     res.status(201).json({
@@ -32,6 +36,7 @@ export const addBinData = async (req, res) => {
     });
 
   } catch (error) {
+    console.error("AddBinData Error:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -41,6 +46,7 @@ export const getAllBins = async (req, res) => {
     const bins = await Bin.find();
     res.json(bins);
   } catch (error) {
+    console.error("GetAllBins Error:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -48,8 +54,14 @@ export const getAllBins = async (req, res) => {
 export const getBinById = async (req, res) => {
   try {
     const bin = await Bin.findOne({ binId: req.params.id });
+
+    if (!bin) {
+      return res.status(404).json({ error: "Bin not found" });
+    }
+
     res.json(bin);
   } catch (error) {
+    console.error("GetBinById Error:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -62,6 +74,7 @@ export const getBinHistory = async (req, res) => {
 
     res.json(data);
   } catch (error) {
+    console.error("GetBinHistory Error:", error);
     res.status(500).json({ error: error.message });
   }
 };

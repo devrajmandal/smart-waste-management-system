@@ -36,7 +36,6 @@ const BinCard = ({ bin }) => {
   return (
     <div className="backdrop-blur-lg bg-white/5 border border-white/10 p-5 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.03] transition duration-300">
       
-      {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">{bin.binId}</h2>
 
@@ -45,13 +44,11 @@ const BinCard = ({ bin }) => {
         </span>
       </div>
 
-      {/* Status Indicator */}
       <div className="flex items-center gap-2 mb-4">
         <span className={`w-3 h-3 rounded-full ${getColor(bin.status)}`}></span>
         <p className="text-sm text-gray-300">Status Indicator</p>
       </div>
 
-      {/* Location */}
       <div className="text-sm text-gray-400 space-y-1">
         <p>📍 Lat: {bin.location?.lat}</p>
         <p>📍 Lng: {bin.location?.lng}</p>
