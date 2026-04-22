@@ -17,16 +17,16 @@ It enables:
 
 ---
 
-## ⚙️ Tech Stack
+## Tech Stack
 
-### 🧠 Hardware (IoT)
+### Hardware (IoT)
 
 * Arduino Uno
 * Ultrasonic Sensors (HC-SR04)
 * Gas Sensor (MQ series)
 * Temperature Sensor (LM35)
 
-### 💻 Software
+### Software
 
 * **Frontend:** React.js + Tailwind CSS + Leaflet Maps
 * **Backend:** Node.js + Express.js
@@ -54,7 +54,7 @@ It enables:
 * BIN_01 includes gas + temperature analysis
 * Other bins use fill-level logic
 
-### 🔄 Auto Refresh Dashboard
+### Auto Refresh Dashboard
 
 * Updates every 3 seconds
 * Smooth UI animations for status changes
@@ -137,7 +137,7 @@ cd smart-waste-management
 
 ---
 
-### 2️⃣ Backend Setup
+### Backend Setup
 
 ```bash
 cd backend
@@ -147,7 +147,7 @@ npm start
 
 ---
 
-### 3️⃣ Frontend Setup
+### Frontend Setup
 
 ```bash
 cd frontend
@@ -157,7 +157,7 @@ npm run dev
 
 ---
 
-### 4️⃣ Arduino Setup
+### Arduino Setup
 
 * Upload `.ino` file using Arduino IDE
 * Connect sensors properly
@@ -165,7 +165,7 @@ npm run dev
 
 ---
 
-## 🔐 Authentication
+## Authentication
 
 * Users can register and login
 * JWT token stored in localStorage
@@ -173,32 +173,35 @@ npm run dev
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
-* Dashboard view
-* <img width="1919" height="829" alt="image" src="https://github.com/user-attachments/assets/0aa92827-d80e-41f5-a2c9-662e39bf8595" />
-
-* Map with optimized route
-* <img width="1919" height="813" alt="image" src="https://github.com/user-attachments/assets/3cb781c9-962e-486c-8727-f24c439c250b" />
+* Landing page
+   <img width="1919" height="823" alt="image" src="https://github.com/user-attachments/assets/8a90e1e7-22dc-4be6-a043-441a4e23111d" />
 
 * Login page
-* <img width="1919" height="823" alt="image" src="https://github.com/user-attachments/assets/312ac5a7-503b-4ec4-a5da-bf89a69328de" />
+   <img width="1919" height="823" alt="image" src="https://github.com/user-attachments/assets/312ac5a7-503b-4ec4-a5da-bf89a69328de" />
+
+* Dashboard view
+   <img width="1919" height="829" alt="image" src="https://github.com/user-attachments/assets/0aa92827-d80e-41f5-a2c9-662e39bf8595" />
+
+* Map with optimized route
+   <img width="1919" height="813" alt="image" src="https://github.com/user-attachments/assets/3cb781c9-962e-486c-8727-f24c439c250b" />
 
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Devraj Mandal**
 
 ---
 
-## ⭐ Contribution
+## Contribution
 
 Feel free to fork, improve, and submit PRs!
 
 ---
 
-## 📜 License
+## License
 
 This project is open-source and available under the MIT License.
