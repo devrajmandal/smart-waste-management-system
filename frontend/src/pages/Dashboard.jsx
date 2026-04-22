@@ -7,49 +7,42 @@ const Dashboard = () => {
   const [bins, setBins] = useState([]);
   const [prevBins, setPrevBins] = useState([]);
 
-  console.log("BINS:", bins);
-
   useEffect(() => {
     const fetchBins = async () => {
       try {
         const res = await API.get("/bins");
-        setPrevBins(bins);
 
-        setTimeout(() => {
-          setBins(res.data);
-        }, 200);
+        setPrevBins((prev) => prev.length ? bins : res.data);
 
-      } catch (error) {
-        console.error(error);
+        setBins(res.data);
+      } catch (err) {
+        console.error(err);
       }
     };
 
     fetchBins();
 
-    const interval = setInterval(fetchBins, 2000);
+    const interval = setInterval(fetchBins, 3000); // ✅ 3 sec
     return () => clearInterval(interval);
-  }, [bins]);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-6">
-      
-      <h1 className="text-4xl font-bold mb-8 tracking-wide">
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+
+      <h1 className="text-4xl font-bold mb-8">
         Smart Waste Dashboard
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {bins.map((bin) => {
-          const prevBin = prevBins.find((b) => b._id === bin._id);
-
-          const statusChanged = prevBin && prevBin.status !== bin.status;
+          const prev = prevBins.find((b) => b._id === bin._id);
+          const changed = prev && prev.status !== bin.status;
 
           return (
             <div
               key={bin._id}
-              className={`transition-all duration-500 ease-in-out ${
-                statusChanged
-                  ? "scale-105 ring-2 ring-blue-400"
-                  : "scale-100"
+              className={`transition-all duration-500 ${
+                changed ? "scale-105 ring-2 ring-blue-400" : ""
               }`}
             >
               <BinCard bin={bin} />
@@ -59,15 +52,9 @@ const Dashboard = () => {
       </div>
 
       <div className="mt-10">
-        <h2 className="text-2xl font-semibold mb-4">
-          Route Overview
-        </h2>
-
-        <div className="rounded-2xl overflow-hidden border border-white/10 shadow-lg transition-all duration-500">
-          <MapView bins={bins} />
-        </div>
+        <h2 className="text-2xl mb-4">Route Overview</h2>
+        <MapView bins={bins} />
       </div>
-
     </div>
   );
 };
